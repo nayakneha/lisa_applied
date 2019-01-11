@@ -90,7 +90,7 @@ def independentize_labels(orig_labels):
         assert close_brace == ")"
         to_end.add(elem)
     final_labels.append(list(curr_entities))
-    curr_entities = set([change_label(BIOLabels.I, label) 
+    curr_entities = set([change_label(BIOLabels.I, label)
         for label in curr_entities
         if get_entity_from_label(label) not in to_end])
 
