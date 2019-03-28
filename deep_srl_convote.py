@@ -14,9 +14,11 @@ def read_frames_from_file(f):
       continue
     elif line.startswith("\t\t"): # This is an argument
       key, value = line.strip().split(":", maxsplit=1)
+      value = value.strip()
       fieldnames.add(key)
     elif line.startswith("\t"): # This is a predicate
       key, value = line.strip().split(":", maxsplit=1)
+      value = value.strip()
     else:
       key, value = "Sentence", line.strip()
     current_frame[key] = value

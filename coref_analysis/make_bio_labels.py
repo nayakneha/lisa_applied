@@ -1,27 +1,10 @@
 import collections
 import sys
 import re
+import lisa_prep_lib
 
 
 label_splitter = re.compile("([0-9]+|\(|\))")
-
-
-class BIOLabels(object):
-  B = "B"
-  I = "I"
-  O = "O"
-
-
-class TokenLabel(object):
-  def __init__(self, bio, entity):
-    self.bio = bio
-    self.entity = entity
-
-
-def change_label(bio_label, token_label):
-  token_label.bio = bio_label
-  return token_label
-
 
 def format_label(next_coref_field, curr_entities):
 
@@ -56,6 +39,8 @@ def format_label(next_coref_field, curr_entities):
 
   final_labels = "|".join(sorted(x.bio + '-' + x.entity
       for x in curr_entities))
+  if not final_labels:
+    final_labels = "_"
 
   curr_entities = set([change_label(BIOLabels.I, label)
       for label in curr_entities
@@ -64,7 +49,9 @@ def format_label(next_coref_field, curr_entities):
   return curr_entities, final_labels
 
 
-def read_conll_file(conll_file):
+def main():
+
+  conll_file = sys.argv[1]
   """Convert coref labels to BIO and write to stdout."""
   sentences = []
   curr_entities = set()
@@ -84,11 +71,6 @@ def read_conll_file(conll_file):
           output = "\t".join(fields[:-1] + [new_label])
           sys.stdout.write(output + "\n")
 
-
-def main():
-
-  conll_file = sys.argv[1]
-  read_conll_file(conll_file)
 
 
 if __name__ == "__main__":
