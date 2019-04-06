@@ -156,6 +156,11 @@ def process_example(example_id, example, parser):
       start, end = k
       print("\t".join([example_id, str(start), str(end),
         coref_spans[k], label, " ".join(tokens)]))
+  for k, entity in coref_spans.items():
+    if k not in parse_spans:
+      start, end = k
+      print("\t".join([example_id, "-1", "-1",
+        entity, label, " ".join(coref_tokens[start: end + 1])]))
 
 def main():
   filename = sys.argv[1]
